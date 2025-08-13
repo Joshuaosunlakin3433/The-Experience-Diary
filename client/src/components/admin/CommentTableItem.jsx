@@ -30,7 +30,7 @@ const CommentTableItem = ({ comment, fetchComments }) => {
               Approved
             </p>
           )}
-          <img
+          <img 
             src={assets.bin_icon}
             alt="delete icon"
             className="w-5 hover-scale-110 trasnition-all cursor-pointer"
