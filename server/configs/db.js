@@ -11,7 +11,7 @@ const connectDB = async () => {
       console.log("❌ Database connection error:", err);
     });
 
-    mongoose.connection.on("disconnected", () => {
+    mongoose.connection.on("disconnected", () => {   
       console.log("⚠️ Database disconnected");
     });
 
