@@ -23,5 +23,5 @@ blogRouter.patch("/:id/toggle-publish", auth, togglePublish); //why are we using
 
 blogRouter.post("/add-comment", addComment);
 blogRouter.post("/:id/comments", getBlogComments);
-blogRouter.post("/generate", generateContent);
+blogRouter.post("/generate",auth, generateContent);
 export default blogRouter;

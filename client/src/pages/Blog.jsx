@@ -88,7 +88,7 @@ const Blog = () => {
       </div>
 
       <div className="mx-5 max-w-5xl md:mx-auto my-10 mt-6">
-        <img src={data.image} alt="blog image" className="rounded-2xl/ mb-5" />
+        <img src={data.image} alt="blog image" className="rounded-3xl mb-5" />
 
         <div
           dangerouslySetInnerHTML={{ __html: data.description }}
