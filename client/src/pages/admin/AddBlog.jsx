@@ -1,8 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { assets, blogCategories } from "../../assets/assets";
 import Quill from "quill";
+import { useAppContext } from "../../context/AppContext";
+import toast from "react-hot-toast";
 
 const AddBlog = () => {
+  const { axios } = useAppContext();
+  const [isAdding, setIsAdding] = useState(false);
+
   const editorRef = useRef(null);
   const quillRef = useRef(null);
 
@@ -18,8 +23,52 @@ const AddBlog = () => {
       quillRef.current = new Quill(editorRef.current, { theme: "snow" });
     }
   }, []);
-  const onSubmitHandler = (e) => {
-    e.preventDefault;
+
+  // Add this to your submit handler BEFORE making the API call
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
+
+    try {
+      setIsAdding(true);
+
+      const blog = {
+        title,
+        subTitle,
+        description: quillRef.current.root.innerHTML,
+        category,
+        isPublished,
+      };
+
+      const formData = new FormData();
+      formData.append("blog", JSON.stringify(blog));
+      formData.append("image", image);
+
+      const token = localStorage.getItem("token");
+
+      const { data } = await axios.post("/api/blog/add", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (data.success) {
+        toast.success(data.message);
+        // Reset form
+        setImage(false);
+        setTitle("");
+        setSubTitle("");
+        quillRef.current.root.innerHTML = "";
+        setCategory("Startup");
+        setIsPublished(false);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.error("❌ Error:", error.response?.data);
+      toast.error(error.response?.data?.message || error.message);
+    } finally {
+      setIsAdding(false);
+    }
   };
 
   const generateContent = async () => {};
@@ -77,7 +126,7 @@ const AddBlog = () => {
           <div ref={editorRef}></div>
           <button
             type="button"
-            onClick={generateContent()}
+            onClick={generateContent}
             className="absolute bottom-1 right-2 ml-2 text-xs text-white bg-black/70 px-4 py-1.5 rounded hover:underline cursor-pointer"
           >
             Generate with AI
@@ -93,7 +142,7 @@ const AddBlog = () => {
           id=""
           className="mt-2 px-3 py-2 border text-gray-500 border-gray-300 outline-none rounded"
         >
-          <option value="">Select categor</option>
+          <option value="">Select category</option>
           {blogCategories.map((item, index) => (
             <option key={index} value={item}>
               {item}
@@ -114,10 +163,11 @@ const AddBlog = () => {
         </div>
 
         <button
+          disabled={isAdding}
           type="submit"
           className="mt-8 w-40 h-10 bg-primary text-white rounded cursor-pointer text-sm hover:scale-102 transition ease-in-out duration-300"
         >
-          Add Blog
+          {isAdding ? "Adding..." : "Add Blog"}
         </button>
       </div>
     </form>

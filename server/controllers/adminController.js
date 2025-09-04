@@ -12,26 +12,35 @@ export const adminLogin = async (req, res) => {
       return res.json({ success: false, message: "Invalid Credentials" });
     }
 
-    const token = jwt.sign({ email }, process.env.JWT_SECRET);
+    const token = jwt.sign(
+      {
+        email,
+        iat: Math.floor(Date.now() / 1000), //issued at (currrent time)
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "24h", //Token expires in 24 hrs, any time can be used from 1h to 30m to 7d, etc.
+      }
+    );
     res.json({ success: true, token });
   } catch (error) {
     res.json({ success: false, message: error.message });
   }
 };
 
-export const getAllBlogsAdmin = async (req, res) => {
+export const getAllBlogsAdmin = async (_req, res) => {
   try {
-    const blogs = Blog.find({}).sort({ createdAt: -1 });
+    const blogs = await Blog.find({}).sort({ createdAt: -1 });
     res.status(200).json({
       success: true,
-      data: blogs,
+      blogs,
     });
   } catch (error) {
     res.json({ success: false, message: error.message });
   }
 };
 
-export const getAllComments = async (req, res) => {
+export const getAllComments = async (_req, res) => {
   try {
     const comments = await Comment.find({})
       .populate("blog")
@@ -39,14 +48,14 @@ export const getAllComments = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      data: comments,
+      comments
     });
   } catch (error) {
     res.json({ success: false, message: error.message });
   }
 };
 
-export const getDashboard = async (req, res) => {
+export const getDashboard = async (_req, res) => {
   try {
     const recentBlogs = await Blog.find({}).sort({ createdAt: -1 }).limit(5);
     const blogs = await Blog.countDocuments();
@@ -62,21 +71,32 @@ export const getDashboard = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      data: dashboardData,
+      dashboardData
     });
   } catch (error) {
     res.json({ success: false, message: error.message });
   }
 };
 
+//Delete comment controller
 export const deleteCommentById = async (req, res) => {
   try {
     const { id } = req.params;
-    await Comment.findByIdAndDelete(id);
+    const deletedComment = await Comment.findByIdAndDelete(id);
+    if (!id) {
+      return res.status(404).json({
+        success: failure,
+        message: "Comment not found",
+      });
+    }
 
     res.status(200).json({
       success: true,
       message: "Comment successfully deleted",
+      data: {
+        id: deletedComment._id,
+        content: deletedComment.content,
+      },
     });
   } catch (error) {
     res.json({ success: false, message: error.message });
@@ -111,6 +131,15 @@ export const approveCommentById = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    if ((error.name = "Cast Error")) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid comment ID format",
+      });
+    }
+    res.status(500).json({
+      success: false,
+      message: "failed to approve comment ",
+    });
   }
 };

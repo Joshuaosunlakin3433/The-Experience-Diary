@@ -10,8 +10,6 @@ export const addBlog = async (req, res) => {
     );
     const imageFile = req.file;
 
-    console.log("Request body:", req.body);
-    console.log("Request file:", req.file);
     // Check if all fields are present
     if (!title || !category || !imageFile || !description) {
       return res.json({ success: false, message: "Missing required fields" });
@@ -140,7 +138,7 @@ export const deleteBlogById = async (req, res) => {
         message: "Invalid blog ID format",
       });
     }
-    res.status(500)({
+    res.status(500).json({
       success: false,
       message: "Failed to delete blog",
     });
@@ -241,7 +239,7 @@ export const getBlogComments = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Comments gotten successfully",
-      data: comments,
+      comments: comments || [],
     });
   } catch (error) {
     res.status(500).json({

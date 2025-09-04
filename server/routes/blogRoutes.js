@@ -17,9 +17,9 @@ blogRouter.post("/add", upload.single("image"), auth, addBlog);
 
 blogRouter.get("/all", getAllBlogs);
 blogRouter.get("/:id", getBlogById);
-blogRouter.delete("/:id/delete", deleteBlogById);
+blogRouter.delete("/:id/delete", deleteBlogById); 
 blogRouter.patch("/:id/toggle-publish", auth, togglePublish); //why are we using post for delete? is it not supposed to be delete? and why is there no id their as well
 
-blogRouter.post("/add/-comment", addComment)
-blogRouter.post ("/comments", getBlogComments)
+blogRouter.post("/add-comment", addComment)
+blogRouter.post ("/:id/comments", getBlogComments)
 export default blogRouter;

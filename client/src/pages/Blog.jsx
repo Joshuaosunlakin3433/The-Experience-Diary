@@ -1,31 +1,64 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { assets, blog_data, comments_data } from "../assets/assets";
+import { assets } from "../assets/assets";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import moment from "moment";
 import Loader from "../components/Loader";
+import { useAppContext } from "../context/AppContext";
+import toast from "react-hot-toast";
 
 const Blog = () => {
   const { id } = useParams();
 
+  const { axios } = useAppContext();
   const [data, setData] = useState(null);
   const [comments, setComments] = useState([]);
-
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
 
   const fetchBlogData = async () => {
-    const data = blog_data.find((item) => item._id === id);
-    setData(data);
+    try {
+      const { data } = await axios.get(`api/blog/${id}`);
+      data.success ? setData(data.blog) : toast.error(data.message);
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   const fetchCommentData = async () => {
-    setComments(comments_data);
+    try {
+      const { data } = await axios.post(`/api/blog/${id}/comments`);
+      data.success ? setComments(data.comments) : toast.error(data.message);
+    } catch (error) {
+      console.error("Comments fetch error: ", error);
+      if (error.response?.status !== 404) {
+        const errorMessage =
+          error.response?.data.message || "Failed to fetch comments";
+        toast.error(errorMessage);
+      }
+      setComments([]);
+    }
   };
 
   const addComment = async (e) => {
     e.preventDefault();
+    try {
+      const { data } = await axios.post(`/api/blog/add-comment`, {
+        blog: id,
+        name,
+        content,
+      });
+      if (data.success) {
+        toast.success(data.message);
+        setName("");
+        setContent("");
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   useEffect(() => {
@@ -55,7 +88,7 @@ const Blog = () => {
       </div>
 
       <div className="mx-5 max-w-5xl md:mx-auto my-10 mt-6">
-        <img src={data.image} alt="blog image" className="rounded-full mb-5" />
+        <img src={data.image} alt="blog image" className="rounded-2xl/ mb-5" />
 
         <div
           dangerouslySetInnerHTML={{ __html: data.description }}
@@ -143,7 +176,9 @@ const Blog = () => {
       <Footer />
     </div>
   ) : (
-    <div><Loader/></div>
+    <div>
+      <Loader />
+    </div>
   );
 };
 
