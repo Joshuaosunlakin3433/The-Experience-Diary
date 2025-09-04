@@ -48,7 +48,7 @@ export const getAllComments = async (_req, res) => {
 
     res.status(200).json({
       success: true,
-      comments
+      comments,
     });
   } catch (error) {
     res.json({ success: false, message: error.message });
@@ -71,7 +71,7 @@ export const getDashboard = async (_req, res) => {
 
     res.status(200).json({
       success: true,
-      dashboardData
+      dashboardData,
     });
   } catch (error) {
     res.json({ success: false, message: error.message });
@@ -82,10 +82,22 @@ export const getDashboard = async (_req, res) => {
 export const deleteCommentById = async (req, res) => {
   try {
     const { id } = req.params;
-    const deletedComment = await Comment.findByIdAndDelete(id);
+
+    // Check if ID is provided
     if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: "Comment ID is required",
+      });
+    }
+
+    // Try to delete the comment
+    const deletedComment = await Comment.findByIdAndDelete(id);
+
+    // Check if comment existed
+    if (!deletedComment) {
       return res.status(404).json({
-        success: failure,
+        success: false,
         message: "Comment not found",
       });
     }
@@ -99,10 +111,16 @@ export const deleteCommentById = async (req, res) => {
       },
     });
   } catch (error) {
-    res.json({ success: false, message: error.message });
+    // Handle invalid ObjectId format
+    if (error.name === "CastError") {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid comment ID format",
+      });
+    }
+    res.status(500).json({ success: false, message: error.message });
   }
 };
-
 // APPROVE COMMENT CONTROLLER
 export const approveCommentById = async (req, res) => {
   try {

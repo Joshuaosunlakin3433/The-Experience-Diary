@@ -14,8 +14,8 @@ const adminRouter = express.Router();
 adminRouter.post("/login", adminLogin);
 adminRouter.get("/comments", auth, getAllComments);
 adminRouter.get("/blogs", auth, getAllBlogsAdmin);
-adminRouter.post("/delete-comment", auth, deleteCommentById);
-adminRouter.post("/approve-comment", auth, approveCommentById);
+adminRouter.delete("/:id/delete-comment", auth, deleteCommentById);
+adminRouter.patch("/:id/approve-comment", auth, approveCommentById);
 adminRouter.get("/dashboard", auth, getDashboard);
 
 export default adminRouter;

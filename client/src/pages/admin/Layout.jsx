@@ -1,12 +1,15 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { assets } from "../../assets/assets";
 import Sidebar from "../../components/admin/Sidebar";
+import { useAppContext } from "../../context/AppContext";
 
 const Layout = () => {
-  const navigate = useNavigate();
-
+  const { axios, setToken, navigate } = useAppContext();
   const logout = () => {
-    navigate("/")
+    localStorage.removeItem("token");
+    axios.defaults.headers.common["Authorization"] = null;
+    setToken(null);
+    navigate("/admin");
   };
 
   return (
@@ -29,8 +32,8 @@ const Layout = () => {
       </div>
 
       <div className="flex h-[calc(100vh-70px)]">
-        <Sidebar/>
-        <Outlet/>
+        <Sidebar />
+        <Outlet />
       </div>
     </>
   );

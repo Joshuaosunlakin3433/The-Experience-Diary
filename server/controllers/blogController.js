@@ -2,6 +2,7 @@ import fs from "fs";
 import imagekit from "../configs/imageKit.js";
 import Blog from "../models/Blog.js";
 import Comment from "../models/comment.js";
+import main from "../configs/gemini.js";
 
 export const addBlog = async (req, res) => {
   try {
@@ -249,123 +250,62 @@ export const getBlogComments = async (req, res) => {
   }
 };
 
-// import fs from "fs";
-// import imagekit from "../configs/imageKit.js";
-// import Blog from "../models/Blog.js";
+export const generateContent = async (req, res) => {
+  try {
+    const { prompt, topic, title, contentType = "blog-post" } = req.body;
+    const userInput = prompt || topic || title;
+    if (!userInput?.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide a topic or prompt",
+      });
+    }
 
-// export const addBlog = async (req, res) => {
-//   try {
-//     const { title, description, subTitle, category, isPublished } = JSON.parse(
-//       req.body.blog
-//     );
-//     const imageFile = req.file;
+    let enhancedPrompt;
+    switch (contentType) {
+      case "blog-post":
+        enhancedPrompt = `Write a comprehensive, engaging blog post about "${userInput}".
+          Structure it with: 
+          - An engaging introduction that hooks the reader
+          - Clear subheadings and well-organized content  
+          - Practical examples, tips, or insights
+          - A strong conclusion
+           Format: Use markdown for headings and emphasis. Length: 800-1200 words.`;
+        break;
 
-//     console.log("=== PRODUCTION MODE WITH IMAGEKIT ===");
-//     console.log("Parsed data:", { title, description, subTitle, category, isPublished });
+      case "title":
+        enhancedPrompt = `Generate 5 catchy, SEO-friendly blog post titles about "${userInput}". 
+          Make them click-worthy but professional. Format as a numbered list.`;
+        break;
 
-//     // Check if all fields are present (including image file)
-//     if (!title || !category || !imageFile || !description) {
-//       return res.json({ success: false, message: "Missing required fields" });
-//     }
+      case "outline":
+        enhancedPrompt = `Create a detailed blog post outline about "${userInput}". 
+          Include main headings, subheadings, and key points to cover in each section.`;
+        break;
+      case "meta":
+        enhancedPrompt = `Write an SEO meta description for a blog post about "${userInput}". 
+          Keep it 150-160 characters, compelling, and include relevant keywords.`;
+        break;
 
-//     console.log("=== IMAGEKIT UPLOAD ===");
-//     const fileBuffer = fs.readFileSync(imageFile.path);
-//     console.log("File buffer ready, size:", fileBuffer.length);
+      default:
+        enhancedPrompt = `${userInput}. Generate comprehensive blog content for this topic in markdown format with proper structure.`;
+    }
 
-//     const response = await imagekit.upload({
-//       file: fileBuffer,
-//       fileName: imageFile.originalname,
-//       folder: "/blogs",
-//     });
+    const content = await main(enhancedPrompt);
+    res.status(200).json({
+      success: true,
+      content,
+      topic: userInput,
+      contentType,
+      generatedAt: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error("Content generation error:", error);
 
-//     // 🔍 DEBUG: Let's see what ImageKit actually returns
-//     console.log("ImageKit response keys:", Object.keys(response));
-//     console.log("ImageKit response:", {
-//       fileId: response.fileId,
-//       name: response.name,
-//       filePath: response.filePath,
-//       url: response.url,
-//       thumbnailUrl: response.thumbnailUrl
-//     });
-
-//     // 🛠️ ROBUST IMAGE URL HANDLING
-//     let image;
-
-//     // Try the direct URL first (most reliable)
-//     if (response.url) {
-//       console.log("Using direct ImageKit URL:", response.url);
-//       image = response.url;
-//     }
-//     // Fallback: try URL transformation if we have a file path
-//     else if (response.filePath) {
-//       console.log("Attempting URL transformation with filePath:", response.filePath);
-//       try {
-//         image = imagekit.url({
-//           path: response.filePath,
-//           transformation: [
-//             { quality: "auto" },
-//             { format: "webp" },
-//             { width: "1280" },
-//           ],
-//         });
-//         console.log("Generated optimized URL:", image);
-//       } catch (urlError) {
-//         console.log("URL transformation failed:", urlError.message);
-//         // Final fallback - use any available URL
-//         image = response.thumbnailUrl || "https://via.placeholder.com/1280x720?text=Image+Upload+Failed";
-//       }
-//     }
-//     // Last resort fallback
-//     else {
-//       console.log("No URL found in response, using placeholder");
-//       image = "https://via.placeholder.com/1280x720?text=Image+Upload+Failed";
-//     }
-
-//     console.log("=== FINAL IMAGE URL ===");
-//     console.log("Image URL:", image);
-//     console.log("Image URL type:", typeof image);
-//     console.log("Image URL length:", image.length);
-
-//     // Validate that we have a proper image URL
-//     if (!image || typeof image !== 'string' || image.length === 0) {
-//       throw new Error("Failed to generate valid image URL from ImageKit");
-//     }
-
-//     const blogData = {
-//       title,
-//       subTitle,
-//       description,
-//       category,
-//       image,
-//       isPublished: isPublished === 'true' || isPublished === true,
-//     };
-
-//     console.log("=== SAVING TO DATABASE ===");
-//     const savedBlog = await Blog.create(blogData);
-
-//     console.log("SUCCESS! Blog saved with ID:", savedBlog._id);
-//     console.log("Saved image URL:", savedBlog.image);
-
-//     // Clean up temp file
-//     if (fs.existsSync(imageFile.path)) {
-//       fs.unlinkSync(imageFile.path);
-//     }
-
-//     res.json({
-//       success: true,
-//       message: "Blog added successfully",
-//       blogId: savedBlog._id,
-//       imageUrl: savedBlog.image
-//     });
-
-//   } catch (error) {
-//     console.error("Error details:", error);
-
-//     // Clean up temp file on error
-//     if (req.file && req.file.path && fs.existsSync(req.file.path)) {
-//       fs.unlinkSync(req.file.path);
-//     }
-
-//     res.json({ success: false, message: error.message });
-//   }
-// };
+    res.status(500).json({
+      success: false,
+      message: "Failed to generate content. Please try again.",
+      error: process.env.NODE_ENV === "development" ? error.message : undefined,
+    });
+  }
+};
