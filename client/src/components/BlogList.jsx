@@ -26,18 +26,13 @@ const BlogList = () => {
           <div key={item} className="relative">
             <button
               onClick={() => setMenu(item)}
-              className={`cursor-pointer text-gray-500 ${
-                menu === item && "text-white px-4 pt-0.5"
+              className={`cursor-pointer px-4 py-2 rounded-full transition-all duration-300 ${
+                menu === item
+                  ? "bg-primary text-white"
+                  : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
               }`}
             >
               {item}
-              {menu === item && (
-                <motion.div
-                  layoutId="underline"
-                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                  className="absolute inset-0 h-7 -z-1 bg-primary rounded-full"
-                ></motion.div>
-              )}
             </button>
           </div>
         ))}
@@ -53,7 +48,6 @@ const BlogList = () => {
           ))}
       </div>
     </div>
-
   );
 };
 
