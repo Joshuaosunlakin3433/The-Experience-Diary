@@ -94,9 +94,9 @@ const AddBlog = () => {
   return (
     <form
       onSubmit={onSubmitHandler}
-      className="flex-1 bg-blue-50/50 text-gray-600 h-full overflow-scroll"
+      className="flex-1 bg-theme-secondary text-theme-primary h-full overflow-scroll"
     >
-      <div className="bg-white w-full max-w-3xl p-4 sm:m-10 shadow rounded">
+      <div className="bg-theme-primary w-full max-w-3xl p-4 sm:m-10 shadow-theme-md rounded">
         <p>Upload thumbnail</p>
         <label htmlFor="image">
           <img
@@ -142,11 +142,13 @@ const AddBlog = () => {
         <p className="mt-4">Blog Description</p>
         <div className="max-w-lg h-74 pb-16 sm:pb-10 pt-2 relative">
           <div ref={editorRef}></div>
-          {loading && (<div className="absolute inset-0 flex items-center justify-center bg-black/10 mt-2">
-            <div className="w-8 h-8 rounded-full border-2 border-t-white animate-spin"></div>
-          </div>)}
+          {loading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/10 mt-2">
+              <div className="w-8 h-8 rounded-full border-2 border-t-white animate-spin"></div>
+            </div>
+          )}
           <button
-            disabled = {loading}
+            disabled={loading}
             type="button"
             onClick={generateContent}
             className="absolute bottom-1 right-2 ml-2 text-xs text-white bg-black/70 px-4 py-1.5 rounded hover:underline cursor-pointer"

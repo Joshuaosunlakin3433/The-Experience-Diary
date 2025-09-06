@@ -10,32 +10,203 @@
 }
 
 @theme {
-  --color-primary: #5044e5;
+  --color-primary: #7c3aed;
 }
 
+/* CSS Custom Properties for Theme System */
+:root {
+  /* Light Theme Colors */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #f1f5f9;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+  --border-primary: #e2e8f0;
+  --border-secondary: #cbd5e1;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
 
-.rich-text { font-size: 15px;  }
+  /* Purple Theme Colors */
+  --purple-primary: #7c3aed;
+  --purple-light: #a78bfa;
+  --purple-dark: #5b21b6;
+  --purple-accent: #8b5cf6;
+  --purple-bg-light: #faf5ff;
+  --purple-bg-dark: #1e1b4b;
+}
 
-.rich-text p { margin-bottom: 16px; color: #292929; }
+/* Dark Theme Colors */
+.dark {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --border-primary: #334155;
+  --border-secondary: #475569;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.3),
+    0 4px 6px -4px rgb(0 0 0 / 0.3);
 
-.rich-text h1 { font-size: 36px; font-weight: 700; color: #252525 !important; margin: 32px 0; }
+  /* Purple adjustments for dark mode */
+  --purple-bg-light: #1e1b4b;
+  --purple-bg-dark: #0f0b2e;
+}
 
-.rich-text h2 { font-size: 22px; font-weight: 700; color: #252525 !important; margin: 24px 0; }
+/* Global Theme Transitions */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease, box-shadow 0.3s ease;
+}
 
-.rich-text h3 { font-size: 18px; font-weight: 600; color: #333333 !important; margin: 20px 0; }
+/* Theme-aware utility classes */
+.bg-theme-primary {
+  background-color: var(--bg-primary);
+}
 
-.rich-text h4 { font-size: 16px; font-weight: 500; color: #444444 !important; margin: 16px 0; }
+.bg-theme-secondary {
+  background-color: var(--bg-secondary);
+}
 
-.rich-text h5 { font-size: 14px; font-weight: 400; color: #555555 !important; margin: 12px 0; }
+.bg-theme-tertiary {
+  background-color: var(--bg-tertiary);
+}
 
-.rich-text h6 { font-size: 12px; font-weight: 400; color: #666666 !important; margin: 8px 0; }
+.text-theme-primary {
+  color: var(--text-primary);
+}
 
-.rich-text strong { font-weight: 700; }
+.text-theme-secondary {
+  color: var(--text-secondary);
+}
 
-.rich-text ol { margin-left: 30px; list-style-type: decimal; }
+.text-theme-muted {
+  color: var(--text-muted);
+}
 
-.rich-text ul { margin-left: 30px; list-style-type: disc; }
+.border-theme-primary {
+  border-color: var(--border-primary);
+}
 
-.rich-text li { margin-bottom: 8px; }
+.border-theme-secondary {
+  border-color: var(--border-secondary);
+}
 
-.rich-text a { color: #007AFF }
+.shadow-theme-sm {
+  box-shadow: var(--shadow-sm);
+}
+
+.shadow-theme-md {
+  box-shadow: var(--shadow-md);
+}
+
+.shadow-theme-lg {
+  box-shadow: var(--shadow-lg);
+}
+
+.rich-text {
+  font-size: 15px;
+}
+
+.rich-text p {
+  margin-bottom: 16px;
+  color: #292929;
+}
+
+.rich-text h1 {
+  font-size: 36px;
+  font-weight: 700;
+  color: #252525 !important;
+  margin: 32px 0;
+}
+
+.rich-text h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #252525 !important;
+  margin: 24px 0;
+}
+
+.rich-text h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333333 !important;
+  margin: 20px 0;
+}
+
+.rich-text h4 {
+  font-size: 16px;
+  font-weight: 500;
+  color: #444444 !important;
+  margin: 16px 0;
+}
+
+.rich-text h5 {
+  font-size: 14px;
+  font-weight: 400;
+  color: #555555 !important;
+  margin: 12px 0;
+}
+
+.rich-text h6 {
+  font-size: 12px;
+  font-weight: 400;
+  color: #666666 !important;
+  margin: 8px 0;
+}
+
+.rich-text strong {
+  font-weight: 700;
+}
+
+.rich-text ol {
+  margin-left: 30px;
+  list-style-type: decimal;
+}
+
+.rich-text ul {
+  margin-left: 30px;
+  list-style-type: disc;
+}
+
+.rich-text li {
+  margin-bottom: 8px;
+}
+
+.rich-text a {
+  color: #7c3aed;
+}
+
+/* ED Logo Styling */
+.ed-logo {
+  height: 50px;
+  width: auto;
+  cursor: pointer;
+  transition: opacity 0.2s ease-in-out, filter 0.3s ease;
+}
+
+/* Dark mode logo visibility */
+.dark .ed-logo {
+  filter: brightness(0) invert(1);
+}
+
+/* Footer ED Logo Styling */
+.ed-logo-footer {
+  height: 60px;
+  width: auto;
+  transition: filter 0.3s ease;
+}
+
+/* Dark mode footer logo visibility */
+.dark .ed-logo-footer {
+  filter: brightness(0) invert(1);
+}
+
+.ed-logo:hover {
+  opacity: 0.8;
+}

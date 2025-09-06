@@ -22,4 +22,4 @@
 
 .rich-text li { margin-bottom: 8px; }
 
-.rich-text a { color: #007AFF }
+.rich-text a { color: #7C3AED }

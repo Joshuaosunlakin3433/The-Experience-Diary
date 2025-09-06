@@ -14,7 +14,7 @@ const ListBlog = () => {
       console.log(data);
     } catch (error) {
       toast.error(error.message);
-      console.log(error)
+      console.log(error);
     }
   };
 
@@ -23,7 +23,7 @@ const ListBlog = () => {
   }, []);
 
   return (
-    <div className="flex-1 pt-5 px-5 sm:pt-12 sm:pl-16 bg-blue-50/50">
+    <div className="flex-1 pt-5 px-5 sm:pt-12 sm:pl-16 bg-theme-secondary">
       <h1>All Blogs</h1>
 
       <div className="relative h-4/5 max-w-4xl overflow-x-auto shadow rounded-lg scrollbar-hide bg-white">

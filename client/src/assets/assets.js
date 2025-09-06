@@ -12,6 +12,7 @@ import facebook_icon from "./facebook_icon.svg";
 import googleplus_icon from "./googleplus_icon.svg";
 import twitter_icon from "./twitter_icon.svg";
 import logo from "./logo.svg";
+import ED_logo from "./ED.png"; // or .svg depending on your file format
 import arrow from "./arrow.svg";
 import logo_light from "./logo_light.svg";
 import blog_icon from "./blog_icon.png";
@@ -37,6 +38,7 @@ export const assets = {
   googleplus_icon,
   twitter_icon,
   logo,
+  ED_logo,
   arrow,
   logo_light,
   blog_icon,
@@ -64,7 +66,6 @@ export const blogCategories = [
   "Lifestyle",
   "Finance",
 ];
-
 
 export const blog_data = [
   {
