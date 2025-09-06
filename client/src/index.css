@@ -115,48 +115,48 @@
 
 .rich-text p {
   margin-bottom: 16px;
-  color: #292929;
+  color: var(--text-primary);
 }
 
 .rich-text h1 {
   font-size: 36px;
   font-weight: 700;
-  color: #252525 !important;
+  color: var(--text-primary) !important;
   margin: 32px 0;
 }
 
 .rich-text h2 {
   font-size: 22px;
   font-weight: 700;
-  color: #252525 !important;
+  color: var(--text-primary) !important;
   margin: 24px 0;
 }
 
 .rich-text h3 {
   font-size: 18px;
   font-weight: 600;
-  color: #333333 !important;
+  color: var(--text-primary) !important;
   margin: 20px 0;
 }
 
 .rich-text h4 {
   font-size: 16px;
   font-weight: 500;
-  color: #444444 !important;
+  color: var(--text-primary) !important;
   margin: 16px 0;
 }
 
 .rich-text h5 {
   font-size: 14px;
   font-weight: 400;
-  color: #555555 !important;
+  color: var(--text-secondary) !important;
   margin: 12px 0;
 }
 
 .rich-text h6 {
   font-size: 12px;
   font-weight: 400;
-  color: #666666 !important;
+  color: var(--text-secondary) !important;
   margin: 8px 0;
 }
 
@@ -176,6 +176,7 @@
 
 .rich-text li {
   margin-bottom: 8px;
+  color: var(--text-primary);
 }
 
 .rich-text a {

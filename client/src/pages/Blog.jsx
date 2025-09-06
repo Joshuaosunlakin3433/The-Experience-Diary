@@ -74,14 +74,16 @@ const Blog = () => {
         className="absolute -top-50 -z-10 opacity-50"
       />
       <Navbar />
-      <div className="text-center mt-20 text-gray-600">
+      <div className="text-center mt-20 text-theme-secondary">
         <p className="font-medium text-primary py-4">
           Published on {moment(data.createdAt).format("MMMM Do YYYY")}
         </p>
-        <h1 className="font-semibold text-2xl sm:text-5xl max-w-2xl mx-auto text-gray-800">
+        <h1 className="font-semibold text-2xl sm:text-5xl max-w-2xl mx-auto text-theme-primary">
           {data.title}
         </h1>
-        <h2 className="my-5 max-w-lg mx-auto truncate">{data.subTitle}</h2>
+        <h2 className="my-5 max-w-lg mx-auto truncate text-theme-secondary">
+          {data.subTitle}
+        </h2>
         <p className="inline-block py-1 px-4 rounded-full mb-6 border text-sm border-primary/35 bg-primary/5 font-medium text-primary">
           Joshua Osunlakin
         </p>
@@ -98,19 +100,23 @@ const Blog = () => {
 
       {/* comment section */}
       <div className="mt-14 mb-10 max-w-3xl mx-auto">
-        <p className="font-semibold mb-4">Comments ({comments.length})</p>
+        <p className="font-semibold mb-4 text-theme-primary">
+          Comments ({comments.length})
+        </p>
         <div className="flex flex-col gap-4">
           {comments.map((item, index) => (
             <div
               key={index}
-              className="relative bg-primary/2 border border-primary/5 max-w-xl rounded text-gray-600"
+              className="relative bg-primary/2 border border-primary/5 max-w-xl rounded text-theme-secondary"
             >
               <div className="flex items-center gap-2 mb-2">
                 <img src={assets.user_icon} alt="User Icon" className="w-6" />
-                <p className="font-medium">{item.name}</p>
+                <p className="font-medium text-theme-primary">{item.name}</p>
               </div>
-              <p className="text-sm max-w-md ml-8">{item.content}</p>
-              <div className="absolute right-4 bottom-3 flex items-center gap-2 text-xs">
+              <p className="text-sm max-w-md ml-8 text-theme-secondary">
+                {item.content}
+              </p>
+              <div className="absolute right-4 bottom-3 flex items-center gap-2 text-xs text-theme-muted">
                 {moment(item.createdAt).fromNow()}
               </div>
             </div>
@@ -120,7 +126,9 @@ const Blog = () => {
 
       {/* Add comment section */}
       <div className="max-w-3xl mx-auto">
-        <p className="font-semibold mb-4">Add your comment</p>
+        <p className="font-semibold mb-4 text-theme-primary">
+          Add your comment
+        </p>
 
         <form
           onSubmit={addComment}
@@ -151,7 +159,9 @@ const Blog = () => {
       </div>
       {/* Share Buttons */}
       <div className="my-24 max-w-3xl mx-auto">
-        <p className="font-semibold my-4">Share this article on social media</p>
+        <p className="font-semibold my-4 text-theme-primary">
+          Share this article on social media
+        </p>
         <div className="flex">
           <img
             src={assets.facebook_icon}
