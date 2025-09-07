@@ -39,7 +39,7 @@ const Header = () => {
             ref={inputRef}
             type="text"
             placeholder="Search for blogs"
-            className="w-full pl-4 outline-none "
+            className="w-full pl-4 outline-none bg-white text-gray-900 placeholder-gray-400"
             required
           />
           <button
