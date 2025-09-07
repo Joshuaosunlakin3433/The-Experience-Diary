@@ -14,7 +14,11 @@ const Sidebar = () => {
           }`
         }
       >
-        <img src={assets.home_icon} alt="Home Icon" className="min-w-4 w-5" />
+        <img
+          src={assets.home_icon}
+          alt="Home Icon"
+          className="min-w-4 w-5 dark:invert"
+        />
         <p className="hidden md:inline-block">Dashboard</p>
       </NavLink>
 
@@ -27,7 +31,11 @@ const Sidebar = () => {
           }`
         }
       >
-        <img src={assets.add_icon} alt="Home Icon" className="min-w-4 w-5" />
+        <img
+          src={assets.add_icon}
+          alt="Home Icon"
+          className="min-w-4 w-5 dark:invert"
+        />
         <p className="hidden md:inline-block">Add blogs</p>
       </NavLink>
 
@@ -40,7 +48,11 @@ const Sidebar = () => {
           }`
         }
       >
-        <img src={assets.list_icon} alt="Home Icon" className="min-w-4 w-5" />
+        <img
+          src={assets.list_icon}
+          alt="Home Icon"
+          className="min-w-4 w-5 dark:invert"
+        />
         <p className="hidden md:inline-block">Blog Lists</p>
       </NavLink>
 
@@ -56,7 +68,7 @@ const Sidebar = () => {
         <img
           src={assets.comment_icon}
           alt="Home Icon"
-          className="min-w-4 w-5"
+          className="min-w-4 w-5 dark:invert"
         />
         <p className="hidden md:inline-block">Comments</p>
       </NavLink>

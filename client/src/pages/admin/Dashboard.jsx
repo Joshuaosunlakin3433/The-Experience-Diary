@@ -33,7 +33,7 @@ const Dashboard = () => {
     <div className="flex-1 p-4 md:p-10 bg-theme-secondary">
       <div className="flex flex-wrap gap-4">
         <div className="flex items-center gap-4 bg-theme-primary p-4 min-w-58 rounded shadow-theme-md cursor-pointer hover:scale-105 transition-all duration-300">
-          <img src={assets.dashboard_icon_1} alt="" />
+          <img src={assets.dashboard_icon_1} alt="" className="dark:invert" />
           <div>
             <p className="text-xl font-semibold text-theme-secondary">
               {dashboardData.blogs}
@@ -43,7 +43,7 @@ const Dashboard = () => {
         </div>
 
         <div className="flex items-center gap-4 bg-theme-primary p-4 min-w-58 rounded shadow-theme-md cursor-pointer hover:scale-105 transition-all duration-300">
-          <img src={assets.dashboard_icon_2} alt="" />
+          <img src={assets.dashboard_icon_2} alt="" className="dark:invert" />
           <div>
             <p className="text-xl font-semibold text-theme-secondary">
               {dashboardData.comments}
@@ -53,7 +53,7 @@ const Dashboard = () => {
         </div>
 
         <div className="flex items-center gap-4 bg-theme-primary p-4 min-w-58 rounded shadow-theme-md cursor-pointer hover:scale-105 transition-all duration-300">
-          <img src={assets.dashboard_icon_3} alt="" />
+          <img src={assets.dashboard_icon_3} alt="" className="dark:invert" />
           <div>
             <p className="text-xl font-semibold text-theme-secondary">
               {dashboardData.drafts}
@@ -65,7 +65,11 @@ const Dashboard = () => {
 
       <div>
         <div className="flex items-center gap-3 m-4 mt-6 text-theme-secondary">
-          <img src={assets.dashboard_icon_4} alt="bloglist icon" />
+          <img
+            src={assets.dashboard_icon_4}
+            alt="bloglist icon"
+            className="dark:invert"
+          />
           <p>Latest Blogs</p>
         </div>
 
